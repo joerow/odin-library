@@ -8,17 +8,20 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.info = function () {
-  return this.title + ", " + this.author + ", " + this.pages + ", " + this.read;
+  return (
+    this.title +
+    ", " +
+    this.author +
+    ", number of pages: " +
+    this.pages +
+    ", " +
+    this.read
+  );
 };
 
-const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", "295 pages", "false");
+const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295, false);
 
-const aBHOT = new Book(
-  "A brief history of time",
-  "Stephen Hawking",
-  "256 pages",
-  "true"
-);
+const aBHOT = new Book("A brief history of time", "Stephen Hawking", 256, true);
 
 function addToLibrary(book) {
   myLibrary.push(book);
@@ -44,6 +47,8 @@ function createBookCard(book) {
   const bookCard = document.createElement("div");
   bookCard.className = "book-card";
   bookCard.id = book.title;
+  bookCard.innerHTML =
+    '<button onclick="removeParents(this);">Delete Book</button>';
   document.getElementById("bookshelf").appendChild(bookCard);
 
   // add book title to card
@@ -74,3 +79,27 @@ function createBookCard(book) {
 myLibrary.forEach((element) => {
   createBookCard(element);
 });
+
+const newSubmit = document.querySelector("#newSubmit");
+newSubmit.onclick = function () {
+  newTitle = document.querySelector("#newTitle");
+  newAuthor = document.querySelector("#newAuthor");
+  newPages = document.querySelector("#newPages");
+  newRead = document.querySelector("#newRead");
+  newBook = newTitle.value;
+  newBook = new Book(
+    newTitle.value,
+    newAuthor.value,
+    newPages.value,
+    newRead.value
+  );
+  console.log(newBook);
+  addToLibrary(newBook);
+  createBookCard(newBook);
+};
+
+function removeParents(e) {
+  var root = e.parentNode;
+  root.parentNode.removeChild(root);
+  console.log(root);
+}

@@ -6,17 +6,32 @@
 
 .container {
   display: grid;
-  grid-template: 1fr 5fr / 1fr;
+  grid-template: 5rem 5rem 5fr / 1fr;
   justify-items: center;
 }
 
 #bookshelf {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
+  justify-content: center;
 }
 
 .book-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   width: 250px;
   height: 300px;
   background-color: bisque;
+}
+
+#newBook {
+  display: flex;
+  flex-direction: column;
+  justify-self: flex-start;
+  width: 30vw;
+  height: 30vh;
+  align-items: center;
+  justify-content: center;
 }

@@ -71,23 +71,6 @@ function createBookCard(book) {
   document.getElementById(book.title).appendChild(bookCardRead);
 }
 
-for (const prop in myLibrary) {
-  if (Object.hasOwn(Book, prop)) {
-    console.log(`book.${prop} = ${Book[prop]}`);
-  }
-}
-
-//testing
-
-//need to loop through object in library
-const triangle = { a: 1, b: 2, c: 3 };
-
-for (const prop in triangle) {
-  console.log(`obj.${prop} = ${triangle[prop]}`);
-}
-
-for (let x in myLibrary) {
-  console.log(x.Book.title);
-}
-
-console.log(myLibrary);
+myLibrary.forEach((element) => {
+  createBookCard(element);
+});

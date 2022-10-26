@@ -19,16 +19,9 @@ Book.prototype.info = function () {
   );
 };
 
-const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295, false);
-
-const aBHOT = new Book("A brief history of time", "Stephen Hawking", 256, true);
-
 function addToLibrary(book) {
   myLibrary.push(book);
 }
-
-addToLibrary(theHobbit);
-addToLibrary(aBHOT);
 
 function checkLibrary(book) {
   if (myLibrary.includes(book)) {
@@ -39,16 +32,14 @@ function checkLibrary(book) {
   }
 }
 
-checkLibrary(theHobbit);
-checkLibrary(aBHOT);
-
 function createBookCard(book) {
   // create book card
   const bookCard = document.createElement("div");
   bookCard.className = "book-card";
   bookCard.id = book.title;
+  bookCard.dataset.index = myLibrary.length - 1;
   bookCard.innerHTML =
-    '<button onclick="removeParents(this);">Delete Book</button>';
+    '<button onclick="removeFromLibrary(this.parentNode.dataset.index);removeParents(this);">Delete Book</button>';
   document.getElementById("bookshelf").appendChild(bookCard);
 
   // add book title to card
@@ -76,26 +67,18 @@ function createBookCard(book) {
   document.getElementById(book.title).appendChild(bookCardRead);
 }
 
-myLibrary.forEach((element) => {
-  createBookCard(element);
-});
-
 const newSubmit = document.querySelector("#newSubmit");
 newSubmit.onclick = function () {
   newTitle = document.querySelector("#newTitle");
   newAuthor = document.querySelector("#newAuthor");
   newPages = document.querySelector("#newPages");
-  newRead = document.querySelector("#newRead");
+  newRead = document.querySelector("#newRead").checked;
   newBook = newTitle.value;
-  newBook = new Book(
-    newTitle.value,
-    newAuthor.value,
-    newPages.value,
-    newRead.value
-  );
+  newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead);
   console.log(newBook);
   addToLibrary(newBook);
   createBookCard(newBook);
+  document.getElementById("id01").style.display = "none";
 };
 
 function removeParents(e) {
@@ -103,3 +86,21 @@ function removeParents(e) {
   root.parentNode.removeChild(root);
   console.log(root);
 }
+
+function removeFromLibrary(index) {
+  if (index > -1) {
+    // only splice array when item is found
+    myLibrary.splice(index, 1);
+  } else {
+    // remove the last item
+    myLibrary.pop();
+  }
+}
+
+//add default data
+const theHobbit = new Book("The Hobbit", "J.R.R Tolkien", 295, false);
+const aBHOT = new Book("A brief history of time", "Stephen Hawking", 256, true);
+addToLibrary(theHobbit);
+createBookCard(theHobbit);
+addToLibrary(aBHOT);
+createBookCard(aBHOT);

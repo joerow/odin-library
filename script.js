@@ -65,6 +65,18 @@ function createBookCard(book) {
   bookCardRead.className = "bookcard-read";
   bookCardRead.innerText = "Has been read: " + book.read;
   document.getElementById(book.title).appendChild(bookCardRead);
+
+  //add toggle label to card
+  const bookCardToggleLabel = document.createElement("label");
+  bookCardToggleLabel.className = "switch";
+  bookCardToggleLabel.id = book.title + " toggle";
+  document.getElementById(book.title).appendChild(bookCardToggleLabel);
+
+  // add input into label
+
+  //add span into input
+  bookCardToggleLabel.innerHTML =
+    '<input type="checkbox" checked><span class="slider round"></span>';
 }
 
 const newSubmit = document.querySelector("#newSubmit");

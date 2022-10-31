@@ -39,7 +39,7 @@ function createBookCard(book) {
   bookCard.id = book.title;
   bookCard.dataset.index = myLibrary.length - 1;
   bookCard.innerHTML =
-    '<button onclick="removeFromLibrary(this.parentNode.dataset.index);removeParents(this);">Delete Book</button>';
+    '<button onclick="removeFromLibrary(this.parentNode.dataset.index);removeParents(this);" id="delete"> &times</button>';
   document.getElementById("bookshelf").appendChild(bookCard);
 
   // add book title to card
@@ -71,6 +71,7 @@ function createBookCard(book) {
   bookCardToggleLabel.className = "switch";
   bookCardToggleLabel.id = book.title + " toggle";
   document.getElementById(book.title).appendChild(bookCardToggleLabel);
+
   //add span into input
   if (book.read === true) {
     bookCardToggleLabel.innerHTML =

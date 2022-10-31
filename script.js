@@ -71,12 +71,14 @@ function createBookCard(book) {
   bookCardToggleLabel.className = "switch";
   bookCardToggleLabel.id = book.title + " toggle";
   document.getElementById(book.title).appendChild(bookCardToggleLabel);
-
-  // add input into label
-
   //add span into input
-  bookCardToggleLabel.innerHTML =
-    '<input type="checkbox" checked><span class="slider round"></span>';
+  if (book.read === true) {
+    bookCardToggleLabel.innerHTML =
+      '<input type="checkbox" onclick="toggleRead(this.parentNode.parentNode.dataset.index);" checked><span class="slider round"></span>';
+  } else {
+    bookCardToggleLabel.innerHTML =
+      '<input type="checkbox" onclick="toggleRead(this.parentNode.parentNode.dataset.index);"><span class="slider round"></span>';
+  }
 }
 
 const newSubmit = document.querySelector("#newSubmit");
@@ -107,6 +109,18 @@ function removeFromLibrary(index) {
     // remove the last item
     myLibrary.pop();
   }
+}
+
+function toggleRead(index) {
+  console.log(index);
+  let book = myLibrary[index];
+
+  //invert the read status
+  myLibrary[index].read = !myLibrary[index].read;
+
+  //update the card text
+  document.getElementById(book.title).childNodes[4].innerText =
+    "Has been read: " + book.read;
 }
 
 //add default data

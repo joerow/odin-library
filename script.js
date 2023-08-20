@@ -85,7 +85,7 @@ function createBookCard(book) {
 }
 
 const newSubmit = document.querySelector("#newSubmit");
-newSubmit.onclick = function () {
+/* newSubmit.onclick = function () {
   newTitle = document.querySelector("#newTitle");
   newAuthor = document.querySelector("#newAuthor");
   newPages = document.querySelector("#newPages");
@@ -96,7 +96,7 @@ newSubmit.onclick = function () {
   addToLibrary(newBook);
   createBookCard(newBook);
   document.getElementById("id01").style.display = "none";
-};
+}; */
 
 function removeParents(e) {
   var root = e.parentNode;
@@ -115,7 +115,6 @@ function removeFromLibrary(index) {
 }
 
 function toggleRead(index) {
-  console.log(index);
   let book = myLibrary[index];
 
   //invert the read status
@@ -133,3 +132,78 @@ addToLibrary(theHobbit);
 createBookCard(theHobbit);
 addToLibrary(aBHOT);
 createBookCard(aBHOT);
+
+const form = document.querySelector("form");
+
+const title = document.getElementById("newTitle");
+const titleError = document.querySelector("#newTitle + span.error");
+
+title.addEventListener("input", (event) => {
+  // Each time the user types something, we check if the
+  // form fields are valid.
+
+  if (title.validity.valid) {
+    // In case there is an error message visible, if the field
+    // is valid, we remove the error message.
+    titleError.textContent = ""; // Reset the content of the message
+    titleError.className = "error"; // Reset the visual state of the message
+  } else {
+    // If there is still an error, show the correct error
+    showError();
+  }
+});
+
+form.addEventListener("submit", (event) => {
+  if (!title.validity.valid) {
+    // If it isn't, we display an appropriate error message
+    showError();
+    // Then we prevent the form from being sent by canceling the event
+    event.preventDefault();
+  } else {
+    newTitle = document.querySelector("#newTitle");
+    newAuthor = document.querySelector("#newAuthor");
+    newPages = document.querySelector("#newPages");
+    newRead = document.querySelector("#newRead").checked;
+    newBook = newTitle.value;
+    newBook = new Book(
+      newTitle.value,
+      newAuthor.value,
+      newPages.value,
+      newRead
+    );
+    console.log(newBook);
+    addToLibrary(newBook);
+    createBookCard(newBook);
+    event.preventDefault();
+    document.getElementById("newBookModal").style.display = "none";
+    newTitle.value = "";
+    newAuthor.value = "";
+    newPages.value = null;
+    newRead = null;
+  }
+});
+
+function showError() {
+  if (title.validity.valueMissing) {
+    // If the field is empty,
+    // display the following error message.
+    title.textContent = "You need to enter a title";
+  } else if (title.validity.typeMismatch) {
+    // If the field doesn't contain an email address,
+    // display the following error message.
+    titleError.textContent = "Entered value needs to be an email address.";
+  } else if (title.validity.tooShort) {
+    // If the data is too short,
+    // display the following error message.
+    titleError.textContent = `Email should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
+  }
+
+  // Set the styling appropriately
+  titleError.className = "error active";
+}
+
+const author = document.getElementById("newAuthor");
+const authorError = document.getElementById("#newAuthor + span.error");
+
+const pages = document.getElementById("newPages");
+const pagesError = document.getElementById("#newPages + span.error");

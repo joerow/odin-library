@@ -135,26 +135,38 @@ createBookCard(aBHOT);
 
 const form = document.querySelector("form");
 
-const title = document.getElementById("newTitle");
-const titleError = document.querySelector("#newTitle + span.error");
-
-title.addEventListener("input", (event) => {
+const newTitle = document.getElementById("newTitle");
+const newTitleError = document.querySelector("#newTitle + span.error");
+newTitle.addEventListener("input", (event) => {
   // Each time the user types something, we check if the
   // form fields are valid.
-
-  if (title.validity.valid) {
+  if (newTitle.validity.valid) {
     // In case there is an error message visible, if the field
     // is valid, we remove the error message.
-    titleError.textContent = ""; // Reset the content of the message
-    titleError.className = "error"; // Reset the visual state of the message
+    newTitleError.textContent = ""; // Reset the content of the message
+    newTitleError.className = "error"; // Reset the visual state of the message
   } else {
     // If there is still an error, show the correct error
     showError();
   }
 });
 
+function showError() {
+  if (newTitle.validity.valueMissing) {
+    // If the field is empty,
+    // display the following error message.
+    newTitleError.textContent = "You need to enter a title";
+  } else if (newTitle.validity.tooShort) {
+    // If the data is too short,
+    // display the following error message.
+    newTitleError.textContent = `Title should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
+  }
+  // Set the styling appropriately
+  newTitleError.className = "error active";
+}
+
 form.addEventListener("submit", (event) => {
-  if (!title.validity.valid) {
+  if (!newTitle.validity.valid) {
     // If it isn't, we display an appropriate error message
     showError();
     // Then we prevent the form from being sent by canceling the event
@@ -182,25 +194,6 @@ form.addEventListener("submit", (event) => {
     newRead = null;
   }
 });
-
-function showError() {
-  if (title.validity.valueMissing) {
-    // If the field is empty,
-    // display the following error message.
-    title.textContent = "You need to enter a title";
-  } else if (title.validity.typeMismatch) {
-    // If the field doesn't contain an email address,
-    // display the following error message.
-    titleError.textContent = "Entered value needs to be an email address.";
-  } else if (title.validity.tooShort) {
-    // If the data is too short,
-    // display the following error message.
-    titleError.textContent = `Email should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
-  }
-
-  // Set the styling appropriately
-  titleError.className = "error active";
-}
 
 const author = document.getElementById("newAuthor");
 const authorError = document.getElementById("#newAuthor + span.error");

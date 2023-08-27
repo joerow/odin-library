@@ -147,22 +147,82 @@ newTitle.addEventListener("input", (event) => {
     newTitleError.className = "error"; // Reset the visual state of the message
   } else {
     // If there is still an error, show the correct error
-    showError();
+    showError("title");
   }
 });
 
-function showError() {
-  if (newTitle.validity.valueMissing) {
-    // If the field is empty,
-    // display the following error message.
-    newTitleError.textContent = "You need to enter a title";
-  } else if (newTitle.validity.tooShort) {
-    // If the data is too short,
-    // display the following error message.
-    newTitleError.textContent = `Title should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
+const newAuthor = document.getElementById("newAuthor");
+const newAuthorError = document.querySelector("#newAuthor + span.error");
+newAuthor.addEventListener("input", (event) => {
+  // Each time the user types something, we check if the
+  // form fields are valid.
+  if (newAuthor.validity.valid) {
+    // In case there is an error message visible, if the field
+    // is valid, we remove the error message.
+    newAuthorError.textContent = ""; // Reset the content of the message
+    newAuthorError.className = "error"; // Reset the visual state of the message
+  } else {
+    // If there is still an error, show the correct error
+    showError("author");
   }
-  // Set the styling appropriately
-  newTitleError.className = "error active";
+});
+
+const newPages = document.getElementById("newPages");
+const newPagesError = document.querySelector("#newPages + span.error");
+newPages.addEventListener("input", (event) => {
+  // Each time the user types something, we check if the
+  // form fields are valid.
+  if (newPages.validity.valid) {
+    // In case there is an error message visible, if the field
+    // is valid, we remove the error message.
+    newPagesError.textContent = ""; // Reset the content of the message
+    newPagesError.className = "error"; // Reset the visual state of the message
+  } else {
+    // If there is still an error, show the correct error
+    showError("pages");
+  }
+});
+
+function showError(error) {
+  if (error == "title") {
+    if (newTitle.validity.valueMissing) {
+      // If the field is empty,
+      // display the following error message.
+      newTitleError.textContent = "You need to enter a title";
+    } else if (newTitle.validity.tooShort) {
+      // If the data is too short,
+      // display the following error message.
+      newTitleError.textContent = `Title should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
+    }
+    // Set the styling appropriately
+    newTitleError.className = "error active";
+  }
+  if (error == "author") {
+    if (newAuthor.validity.valueMissing) {
+      // If the field is empty,
+      // display the following error message.
+      newAuthorError.textContent = "You need to enter an author";
+    } else if (newAuthor.validity.tooShort) {
+      // If the data is too short,
+      // display the following error message.
+      newAuthorError.textContent = `Author should be at least ${newAuthor.minLength} characters; you entered ${newAuthor.value.length}.`;
+    }
+    // Set the styling appropriately
+    newAuthorError.className = "error active";
+  }
+  if (error == "pages") {
+    if (newPages.validity.valueMissing) {
+      // If the field is empty,
+      // display the following error message.
+      newPagesError.textContent = "You need to enter the number of pages";
+    } else if (newPages.validity.rangeUnderflow) {
+      // If the data is too short,
+      // display the following error message.
+      newPagesError.textContent = `Number of pages should be at least ${newPages.min}; you entered ${newPages.value}.`;
+    }
+    // Set the styling appropriately
+    newPagesError.className = "error active";
+  }
 }
 
 form.addEventListener("submit", (event) => {
@@ -172,9 +232,6 @@ form.addEventListener("submit", (event) => {
     // Then we prevent the form from being sent by canceling the event
     event.preventDefault();
   } else {
-    newTitle = document.querySelector("#newTitle");
-    newAuthor = document.querySelector("#newAuthor");
-    newPages = document.querySelector("#newPages");
     newRead = document.querySelector("#newRead").checked;
     newBook = newTitle.value;
     newBook = new Book(

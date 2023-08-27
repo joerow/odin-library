@@ -9,18 +9,6 @@ class Book {
   }
 }
 
-/* Book.prototype.info = function () {
-  return (
-    this.title +
-    ", " +
-    this.author +
-    ", number of pages: " +
-    this.pages +
-    ", " +
-    this.read
-  );
-}; */
-
 function addToLibrary(book) {
   myLibrary.push(book);
 }
@@ -84,20 +72,6 @@ function createBookCard(book) {
   }
 }
 
-const newSubmit = document.querySelector("#newSubmit");
-newSubmit.onclick = function () {
-  newTitle = document.querySelector("#newTitle");
-  newAuthor = document.querySelector("#newAuthor");
-  newPages = document.querySelector("#newPages");
-  newRead = document.querySelector("#newRead").checked;
-  newBook = newTitle.value;
-  newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead);
-  console.log(newBook);
-  addToLibrary(newBook);
-  createBookCard(newBook);
-  document.getElementById("id01").style.display = "none";
-};
-
 function removeParents(e) {
   var root = e.parentNode;
   root.parentNode.removeChild(root);
@@ -115,7 +89,6 @@ function removeFromLibrary(index) {
 }
 
 function toggleRead(index) {
-  console.log(index);
   let book = myLibrary[index];
 
   //invert the read status
@@ -133,3 +106,107 @@ addToLibrary(theHobbit);
 createBookCard(theHobbit);
 addToLibrary(aBHOT);
 createBookCard(aBHOT);
+
+const form = document.querySelector("form");
+
+const newTitle = document.getElementById("newTitle");
+const newTitleError = document.querySelector("#newTitle + span.error");
+newTitle.addEventListener("input", (event) => {
+  // Each time the user types something, we check if the
+  // form fields are valid.
+  if (newTitle.validity.valid) {
+    // In case there is an error message visible, if the field
+    // is valid, we remove the error message.
+    newTitleError.textContent = ""; // Reset the content of the message
+    newTitleError.className = "error"; // Reset the visual state of the message
+  } else {
+    // If there is still an error, show the correct error
+    showError("title");
+  }
+});
+
+const newAuthor = document.getElementById("newAuthor");
+const newAuthorError = document.querySelector("#newAuthor + span.error");
+newAuthor.addEventListener("input", (event) => {
+  if (newAuthor.validity.valid) {
+    newAuthorError.textContent = "";
+    newAuthorError.className = "error";
+  } else {
+    showError("author");
+  }
+});
+
+const newPages = document.getElementById("newPages");
+const newPagesError = document.querySelector("#newPages + span.error");
+newPages.addEventListener("input", (event) => {
+  if (newPages.validity.valid) {
+    newPagesError.textContent = "";
+    newPagesError.className = "error";
+  } else {
+    showError("pages");
+  }
+});
+
+function showError(error) {
+  if (error == "title") {
+    if (newTitle.validity.valueMissing) {
+      // If the field is empty,
+      // display the following error message.
+      newTitleError.textContent = "You need to enter a title";
+    } else if (newTitle.validity.tooShort) {
+      // If the data is too short,
+      // display the following error message.
+      newTitleError.textContent = `Title should be at least ${title.minLength} characters; you entered ${email.value.length}.`;
+    }
+    // Set the styling appropriately
+    newTitleError.className = "error active";
+  }
+  if (error == "author") {
+    if (newAuthor.validity.valueMissing) {
+      newAuthorError.textContent = "You need to enter an author";
+    } else if (newAuthor.validity.tooShort) {
+      newAuthorError.textContent = `Author should be at least ${newAuthor.minLength} characters; you entered ${newAuthor.value.length}.`;
+    }
+    newAuthorError.className = "error active";
+  }
+  if (error == "pages") {
+    if (newPages.validity.valueMissing) {
+      newPagesError.textContent = "You need to enter the number of pages";
+    } else if (newPages.validity.rangeUnderflow) {
+      newPagesError.textContent = `Number of pages should be at least ${newPages.min}; you entered ${newPages.value}.`;
+    }
+    newPagesError.className = "error active";
+  }
+}
+const newSubmit = document.querySelector("#newSubmit");
+form.addEventListener("submit", (event) => {
+  if (!newTitle.validity.valid) {
+    // If it isn't, we display an appropriate error message
+    showError();
+    // Then we prevent the form from being sent by canceling the event
+    event.preventDefault();
+  } else {
+    newRead = document.querySelector("#newRead").checked;
+    newBook = newTitle.value;
+    newBook = new Book(
+      newTitle.value,
+      newAuthor.value,
+      newPages.value,
+      newRead
+    );
+    addToLibrary(newBook);
+    createBookCard(newBook);
+    event.preventDefault();
+    document.getElementById("newBookModal").style.display = "none";
+    newTitle.value = "";
+    newAuthor.value = "";
+    newPages.value = null;
+    newRead = null;
+  }
+});
+
+const author = document.getElementById("newAuthor");
+const authorError = document.getElementById("#newAuthor + span.error");
+
+const pages = document.getElementById("newPages");
+const pagesError = document.getElementById("#newPages + span.error");

@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <title>Library</title>
   </head>
   <body>
@@ -13,45 +12,67 @@
       <h1>Library</h1>
       <div class="button-container">
         <button
-          onclick="document.getElementById('id01').style.display='block'"
-          class="w3-button"
+          onclick="document.getElementById('newBookModal').style.display='block'"
+          class=""
         >
           New Book
         </button>
-        <!-- The Modal -->
-        <div id="id01" class="w3-modal">
-          <div class="w3-modal-content">
-            <div class="w3-container">
-              <span
-                onclick="document.getElementById('id01').style.display='none'"
-                class="w3-button w3-display-topright"
-                >&times;</span
-              >
-              <form action="" method="post" id="newBook">
-                <label for="newTitle"
-                  >Title
-                  <input type="text" name="newTitle" id="newTitle" required />
-                </label>
-                <label for="newAuthor"
-                  >Author
-                  <input type="text" name="newAuthor" id="newAuthor" required />
-                </label>
-                <label for="newPages"
-                  >Pages
-                  <input type="number" name="newpages" id="newPages" required />
-                </label>
-                <label for="newRead"
-                  >Read?
-                  <input type="checkbox" name="newRead" id="newRead" />
-                </label>
-                <label for="submit">
-                  <input type="button" value="Submit" id="newSubmit" />
-                </label>
-              </form>
-            </div>
-          </div>
+      </div>
+      <!-- The Modal -->
+      <div id="newBookModal" class="myModal">
+        <div class="modal-content">
+          <button
+            id="close-modal"
+            onclick="document.getElementById('newBookModal').style.display='none'"
+            class=""
+          >
+            &times;
+          </button>
+          <form action="" method="post" id="newBook" class="myForm">
+            <label for="newTitle"
+              >Title
+              <input
+                type="text"
+                name="newTitle"
+                id="newTitle"
+                required
+                minlength="1"
+              />
+              <span class="error" aria-live="polite"></span>
+            </label>
+            <label for="newAuthor"
+              >Author
+              <input
+                type="text"
+                name="newAuthor"
+                id="newAuthor"
+                required
+                minlength="3"
+              />
+              <span class="error" aria-live="polite"></span>
+            </label>
+            <label for="newPages"
+              >Pages
+              <input
+                type="number"
+                name="newpages"
+                id="newPages"
+                required
+                min="10"
+              />
+              <span class="error" aria-live="polite"></span>
+            </label>
+            <label for="newRead"
+              >Read?
+              <input type="checkbox" name="newRead" id="newRead" />
+            </label>
+            <label for="submit">
+              <input type="submit" value="Submit" id="newSubmit" />
+            </label>
+          </form>
         </div>
       </div>
+
       <div id="bookshelf"></div>
     </div>
   </body>

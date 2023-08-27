@@ -9,18 +9,6 @@ class Book {
   }
 }
 
-/* Book.prototype.info = function () {
-  return (
-    this.title +
-    ", " +
-    this.author +
-    ", number of pages: " +
-    this.pages +
-    ", " +
-    this.read
-  );
-}; */
-
 function addToLibrary(book) {
   myLibrary.push(book);
 }
@@ -84,20 +72,6 @@ function createBookCard(book) {
   }
 }
 
-const newSubmit = document.querySelector("#newSubmit");
-/* newSubmit.onclick = function () {
-  newTitle = document.querySelector("#newTitle");
-  newAuthor = document.querySelector("#newAuthor");
-  newPages = document.querySelector("#newPages");
-  newRead = document.querySelector("#newRead").checked;
-  newBook = newTitle.value;
-  newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead);
-  console.log(newBook);
-  addToLibrary(newBook);
-  createBookCard(newBook);
-  document.getElementById("id01").style.display = "none";
-}; */
-
 function removeParents(e) {
   var root = e.parentNode;
   root.parentNode.removeChild(root);
@@ -154,15 +128,10 @@ newTitle.addEventListener("input", (event) => {
 const newAuthor = document.getElementById("newAuthor");
 const newAuthorError = document.querySelector("#newAuthor + span.error");
 newAuthor.addEventListener("input", (event) => {
-  // Each time the user types something, we check if the
-  // form fields are valid.
   if (newAuthor.validity.valid) {
-    // In case there is an error message visible, if the field
-    // is valid, we remove the error message.
-    newAuthorError.textContent = ""; // Reset the content of the message
-    newAuthorError.className = "error"; // Reset the visual state of the message
+    newAuthorError.textContent = "";
+    newAuthorError.className = "error";
   } else {
-    // If there is still an error, show the correct error
     showError("author");
   }
 });
@@ -170,15 +139,10 @@ newAuthor.addEventListener("input", (event) => {
 const newPages = document.getElementById("newPages");
 const newPagesError = document.querySelector("#newPages + span.error");
 newPages.addEventListener("input", (event) => {
-  // Each time the user types something, we check if the
-  // form fields are valid.
   if (newPages.validity.valid) {
-    // In case there is an error message visible, if the field
-    // is valid, we remove the error message.
-    newPagesError.textContent = ""; // Reset the content of the message
-    newPagesError.className = "error"; // Reset the visual state of the message
+    newPagesError.textContent = "";
+    newPagesError.className = "error";
   } else {
-    // If there is still an error, show the correct error
     showError("pages");
   }
 });
@@ -199,32 +163,22 @@ function showError(error) {
   }
   if (error == "author") {
     if (newAuthor.validity.valueMissing) {
-      // If the field is empty,
-      // display the following error message.
       newAuthorError.textContent = "You need to enter an author";
     } else if (newAuthor.validity.tooShort) {
-      // If the data is too short,
-      // display the following error message.
       newAuthorError.textContent = `Author should be at least ${newAuthor.minLength} characters; you entered ${newAuthor.value.length}.`;
     }
-    // Set the styling appropriately
     newAuthorError.className = "error active";
   }
   if (error == "pages") {
     if (newPages.validity.valueMissing) {
-      // If the field is empty,
-      // display the following error message.
       newPagesError.textContent = "You need to enter the number of pages";
     } else if (newPages.validity.rangeUnderflow) {
-      // If the data is too short,
-      // display the following error message.
       newPagesError.textContent = `Number of pages should be at least ${newPages.min}; you entered ${newPages.value}.`;
     }
-    // Set the styling appropriately
     newPagesError.className = "error active";
   }
 }
-
+const newSubmit = document.querySelector("#newSubmit");
 form.addEventListener("submit", (event) => {
   if (!newTitle.validity.valid) {
     // If it isn't, we display an appropriate error message
@@ -240,7 +194,6 @@ form.addEventListener("submit", (event) => {
       newPages.value,
       newRead
     );
-    console.log(newBook);
     addToLibrary(newBook);
     createBookCard(newBook);
     event.preventDefault();
